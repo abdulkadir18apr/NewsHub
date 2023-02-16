@@ -18,15 +18,16 @@ export class News extends Component {
     
     articles=[] ;
     static propTypes = {}
-    constructor(){
-    super();
+    constructor(props){
+    super(props);
     this.state={
         articles:this.articles,
         loading:false,
         page:1
     }
-
+    document.title=`${this.capitialize(this.props.category)}- NewsHub`
   }
+ capitialize=(str)=>str.charAt(0).toUpperCase()+str.slice(1)
   async upateNews(){
          //run after render
          const url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=407c5b1395e04accb74e85ffe7589e13&page=${this.state.page}&pagesize=${this.props.pageSize}`
@@ -35,6 +36,7 @@ export class News extends Component {
          let data=await respose.json()
          this.setState({articles:data.articles,totalArticles:data.totalResults, loading:false});
          console.log(data)
+
 
   }
   
@@ -64,7 +66,7 @@ export class News extends Component {
 
     return (
       <div className="container my-3">
-        <h2 className='text-center'>NewsHub Top HeadLines</h2>
+        <h2 className='text-center'>NewsHub Top {this.capitialize(this.props.category)} HeadLines </h2>
         {this.state.loading && <Spinner/>}
         <div className="row">
         {this.state.articles.map((element)=>{
