@@ -2,6 +2,8 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 import Spinner from './Spinner';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 
 export class News extends Component {
 
@@ -23,7 +25,8 @@ export class News extends Component {
     this.state={
         articles:this.articles,
         loading:false,
-        page:1
+        page:1,
+        totalResults:0
     }
 
   }
@@ -66,17 +69,28 @@ export class News extends Component {
     return (
       <div className="container my-3">
         <h2 className='text-center'>NewsHub Top HeadLines</h2>
-        {this.state.loading && <Spinner/>}
+        {/* {this.state.loading && <Spinner/>} */}
         <div className="row">
-        {this.state.articles.map((element)=>{
+        <InfiniteScroll
+          dataLength={this.state.articles.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.articles.length!=this.state.totalResults}
+          loader={<Spinner/>}
+          style={{display:'flex',flexWrap:'wrap'}}
+        >
+            {this.state.articles.map((element)=>{
             return(
-                !this.state.loading && <div className="col-md-4" key={element.url}>
+                <div className="col-md-4" key={element.url}>
                 <NewsItem  title={element.title?element.title:""} description={element.description?element.description:""} imageUrl={element.urlToImage?element.urlToImage:"https://assets1.cbsnewsstatic.com/hub/i/r/2023/02/13/191b867e-6b6c-4655-ac7b-7d05f7306ee7/thumbnail/1200x630/c53519ebb168e04fba72b027a0e8a50c/gettyimages-1246627710.jpg"} newsUrl={element.url} />                
                 </div>
             )
 
         
     })}
+        </InfiniteScroll>
+
+
+        
     </div>
     <div className="d-flex justify-content-between">
         <button disabled={this.state.page<=1} type="button" className="btn btn-dark" onClick={this.HandlePrev}>&laquo; Previous </button>
