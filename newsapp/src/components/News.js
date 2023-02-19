@@ -5,6 +5,7 @@ import Spinner from './Spinner';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 
+
 export class News extends Component {
 
     static defaultProps = {
@@ -32,11 +33,15 @@ export class News extends Component {
   
   async componentDidMount(){
      //run after render
+     this.props.setProgress(10);
     let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=407c5b1395e04accb74e85ffe7589e13&page=1&pagesize=${this.props.pageSize}`
     this.setState({loading:true});
     let respose=await fetch(url)
+    this.props.setProgress(30);
     let data=await respose.json()
+    this.props.setProgress(70);
     this.setState({articles:data.articles,totalArticles:data.totalResults, loading:false});
+    this.props.setProgress(100);
 
   }
   fetchMoreData=async()=>{
@@ -51,12 +56,6 @@ export class News extends Component {
   increment=()=>{
     this.i=this.i+1;
   }
-
-
-
-
-
-  
 
   render() {
 
