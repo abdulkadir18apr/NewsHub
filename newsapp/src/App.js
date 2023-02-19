@@ -27,7 +27,6 @@ export default class App extends Component {
           <NavBar />
           <div>
             <LoadingBar
-            
               color='#f11946'
               progress={this.state.progress}
               // onLoaderFinished={() => setProgress(0)}
