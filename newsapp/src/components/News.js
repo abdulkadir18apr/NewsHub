@@ -48,7 +48,7 @@ export class News extends Component {
   async componentDidMount(){
      //run after render
      this.props.setProgress(10);
-    let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=407c5b1395e04accb74e85ffe7589e13&page=1&pagesize=${this.props.pageSize}`
+    let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&pagesize=${this.props.pageSize}`
     this.setState({loading:true});
     let respose=await fetch(url)
     this.props.setProgress(30);
@@ -60,7 +60,7 @@ export class News extends Component {
   }
   fetchMoreData=async()=>{
     this.setState({page:this.state.page+1});
-    let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=407c5b1395e04accb74e85ffe7589e13&page=1&pagesize=${this.props.pageSize}`
+    let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=1&pagesize=${this.props.pageSize}`
     this.setState({loading:true});
     let respose=await fetch(url)
     let data=await respose.json()
@@ -88,7 +88,7 @@ export class News extends Component {
             {this.state.articles.map((element)=>{
             return(
                 <div className="col-md-4" key={this.increment()}>
-                <NewsItem  title={element.title?element.title:""} description={element.description?element.description:""} imageUrl={element.urlToImage?element.urlToImage:"https://assets1.cbsnewsstatic.com/hub/i/r/2023/02/13/191b867e-6b6c-4655-ac7b-7d05f7306ee7/thumbnail/1200x630/c53519ebb168e04fba72b027a0e8a50c/gettyimages-1246627710.jpg"} newsUrl={element.url} />                
+                <NewsItem  title={element.title?element.title:""} description={element.description?element.description:""} imageUrl={element.urlToImage?element.urlToImage:"https://assets1.cbsnewsstatic.com/hub/i/r/2023/02/13/191b867e-6b6c-4655-ac7b-7d05f7306ee7/thumbnail/1200x630/c53519ebb168e04fba72b027a0e8a50c/gettyimages-1246627710.jpg"} newsUrl={element.url} source={element.source.name} author={element.author} date={element.publishedAt} />                
 
                 </div>
             )
