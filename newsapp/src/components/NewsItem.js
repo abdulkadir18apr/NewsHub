@@ -1,14 +1,11 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React from 'react'
 import { Route,Router} from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 
-export class NewsItem extends Component {
-  static propTypes = {}
-
-  render() {
-    const {title,description,imageUrl,newsUrl,author,date,source}=this.props;
+const NewsItem=(props)=>{
+    const {title,description,imageUrl,newsUrl,author,date,source}=props;
     return (
       <div className="my-3">
         <div className="card">
@@ -26,9 +23,9 @@ export class NewsItem extends Component {
             </div>
         </div>
       </div>
-    )   
-  }
-}
+    )  
+    } 
+
 
 export default NewsItem
 
