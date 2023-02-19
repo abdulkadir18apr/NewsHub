@@ -11,8 +11,6 @@ const News =(props)=> {
   const [loading,setLoading]=useState(false);
   const [page,setPage]=useState(1);
   const [totalResults,setTotalResults]=useState(0);
-  console.log(props)
-
 
 
   //   document.title=`${capitialize(props.category)}- NewsHub`
@@ -35,19 +33,20 @@ const News =(props)=> {
 
   
   useEffect(()=>{
-    console.log("HELLO")
     upDateNews();
   },[])
 
   const fetchMoreData=async()=>{
+    
+    let url=`https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pagesize=${props.pageSize}`;
     setPage(page+1)
-    let url=`https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pagesize=${props.pageSize}`
     setLoading(true);
     let respose=await fetch(url)
     let data=await respose.json()
     setArticle(articles.concat(data.articles));
     setTotalResults(data.totalResults);
     setLoading(false);
+
   }
   let i=0
   const increment=()=>{
@@ -57,7 +56,7 @@ const News =(props)=> {
     return (
      
       <div className="container my-3">
-        <h2 className='text-center'>NewsHub Top {capitialize(props.category)} HeadLines </h2>
+        <h2 className='text-center' style={{marginTop:"50px"}}>NewsHub Top {capitialize(props.category)} HeadLines </h2>
         {loading && <Spinner/>}
         <div className="row">
         <InfiniteScroll
@@ -69,7 +68,7 @@ const News =(props)=> {
         >
             {articles.map((element)=>{
             return(
-                <div className="col-md-4" key={increment()}>
+                <div className="col-md-4" key={element.url}>
                 <NewsItem  title={element.title?element.title:""} description={element.description?element.description:""} imageUrl={element.urlToImage?element.urlToImage:"https://assets1.cbsnewsstatic.com/hub/i/r/2023/02/13/191b867e-6b6c-4655-ac7b-7d05f7306ee7/thumbnail/1200x630/c53519ebb168e04fba72b027a0e8a50c/gettyimages-1246627710.jpg"} newsUrl={element.url} source={element.source.name} author={element.author} date={element.publishedAt} />                
 
                 </div>
